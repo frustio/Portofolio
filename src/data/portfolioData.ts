@@ -78,7 +78,7 @@ export const projects: Project[] = [
   },
   {
     id: 'motor-control',
-    title: 'PID Motor Speed Controller',
+    title: 'PID Motor Speed for quadcopter',
     category: 'electrical',
     summary:
       'Precision DC motor speed control system using PID algorithm with encoder feedback, featuring auto-tuning capability and serial monitoring interface.',
