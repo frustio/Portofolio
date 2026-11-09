@@ -3,19 +3,31 @@ import { ExternalLink } from 'lucide-react';
 import { GithubIcon } from '../ui/Icons';
 import { projects } from '../../data/portfolioData';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
+import type { ProjectCategory } from '../../types';
 
-const categories = [
-  { key: 'all', label: 'All' },
-  { key: 'embedded', label: 'Embedded' },
-  { key: 'electrical', label: 'Electrical' },
-  { key: 'iot', label: 'IoT' },
-  { key: 'software', label: 'Software' },
-  { key: 'fullstack', label: 'Full-Stack' },
-];
+const categoryLabels: Record<ProjectCategory, string> = {
+  uav: 'UAV',
+  embedded: 'Embedded',
+  control: 'Control Systems',
+  robotics: 'Robotics',
+  electrical: 'Electrical',
+  iot: 'IoT',
+  software: 'Software',
+  fullstack: 'Full-Stack',
+};
 
 export default function Projects() {
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeFilter, setActiveFilter] = useState<'all' | ProjectCategory>('all');
   const { ref, isVisible } = useScrollReveal<HTMLDivElement>();
+
+  // Only show filter tabs for categories that actually have projects
+  const categories = useMemo(() => {
+    const present = Array.from(new Set(projects.map((p) => p.category)));
+    return [
+      { key: 'all' as const, label: 'All' },
+      ...present.map((key) => ({ key, label: categoryLabels[key] })),
+    ];
+  }, []);
 
   const filteredProjects = useMemo(
     () => (activeFilter === 'all' ? projects : projects.filter((p) => p.category === activeFilter)),
@@ -30,7 +42,7 @@ export default function Projects() {
             <span className="section-header__label">// Projects</span>
             <h2 className="section-header__title">Engineering Case Studies</h2>
             <p className="section-header__description">
-              From firmware to full-stack — real solutions for real problems
+              From flight controllers to automated control systems — real solutions for real problems
             </p>
           </div>
 
@@ -41,6 +53,7 @@ export default function Projects() {
                 key={cat.key}
                 className={`projects__filter-btn ${activeFilter === cat.key ? 'active' : ''}`}
                 onClick={() => setActiveFilter(cat.key)}
+                aria-pressed={activeFilter === cat.key}
               >
                 {cat.label}
               </button>
@@ -70,8 +83,12 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
     >
       <div className="project-card__header">
         <h3 className="project-card__title">{project.title}</h3>
-        <span className="badge badge-accent project-card__category">{project.category}</span>
+        <span className="badge badge-accent project-card__category">
+          {categoryLabels[project.category]}
+        </span>
       </div>
+
+      <div className="project-card__date">{project.date}</div>
 
       <p className="project-card__summary">{project.summary}</p>
 
@@ -93,6 +110,16 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         </div>
       )}
 
+      {project.highlights.length > 0 && (
+        <ul className="project-card__highlights">
+          {project.highlights.map((highlight) => (
+            <li key={highlight} className="project-card__highlight">
+              {highlight}
+            </li>
+          ))}
+        </ul>
+      )}
+
       <div className="project-card__tech">
         {project.techStack.map((tech) => (
           <span key={tech} className="badge">
@@ -101,20 +128,22 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         ))}
       </div>
 
-      <div className="project-card__actions">
-        {project.githubUrl && (
-          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm">
-            <GithubIcon width={14} height={14} />
-            Source Code
-          </a>
-        )}
-        {project.liveUrl && (
-          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm">
-            <ExternalLink size={14} />
-            Live Demo
-          </a>
-        )}
-      </div>
+      {(project.githubUrl || project.liveUrl) && (
+        <div className="project-card__actions">
+          {project.githubUrl && (
+            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm">
+              <GithubIcon width={14} height={14} />
+              Source Code
+            </a>
+          )}
+          {project.liveUrl && (
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm">
+              <ExternalLink size={14} />
+              Live Demo
+            </a>
+          )}
+        </div>
+      )}
     </div>
   );
 }

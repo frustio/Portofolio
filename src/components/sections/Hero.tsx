@@ -1,4 +1,4 @@
-import { Mail, ArrowDown, ExternalLink } from 'lucide-react';
+import { Mail, ArrowDown, ExternalLink, Download, MessageCircle } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '../ui/Icons';
 import { personalInfo } from '../../data/portfolioData';
 import { useTypingEffect } from '../../hooks/useTypingEffect';
@@ -24,8 +24,8 @@ export default function Hero() {
       </div>
 
       <div className="hero__content">
-        {/* Status pill */}
-        <div className="hero__status">
+        {/* Status pill — colour follows the status value */}
+        <div className={`hero__status hero__status--${personalInfo.status}`}>
           <span className="hero__status-dot" />
           <span className="hero__status-text">{statusLabel}</span>
         </div>
@@ -53,6 +53,12 @@ export default function Hero() {
             View Projects
             <ExternalLink size={16} />
           </a>
+          {personalInfo.resumeUrl && (
+            <a href={personalInfo.resumeUrl} className="btn btn-secondary btn-lg" download>
+              <Download size={16} />
+              Download CV
+            </a>
+          )}
           <a href="#contact" className="btn btn-secondary btn-lg" onClick={(e) => {
             e.preventDefault();
             document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
@@ -81,6 +87,17 @@ export default function Hero() {
           >
             <LinkedinIcon width={20} height={20} />
           </a>
+          {personalInfo.socials.whatsapp && (
+            <a
+              href={personalInfo.socials.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-icon"
+              aria-label="Chat on WhatsApp"
+            >
+              <MessageCircle size={20} />
+            </a>
+          )}
           <a
             href={`mailto:${personalInfo.socials.email}`}
             className="btn-icon"

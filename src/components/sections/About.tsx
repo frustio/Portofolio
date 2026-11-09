@@ -1,4 +1,4 @@
-import { Calendar, FolderCode, Cpu, Award } from 'lucide-react';
+import { Calendar, FolderCode, Cpu, Award, GraduationCap, Trophy, Briefcase } from 'lucide-react';
 import { metrics } from '../../data/portfolioData';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
 
@@ -7,6 +7,9 @@ const iconMap: Record<string, React.ReactNode> = {
   FolderCode: <FolderCode size={24} />,
   Cpu: <Cpu size={24} />,
   Award: <Award size={24} />,
+  GraduationCap: <GraduationCap size={24} />,
+  Trophy: <Trophy size={24} />,
+  Briefcase: <Briefcase size={24} />,
 };
 
 export default function About() {
@@ -19,23 +22,25 @@ export default function About() {
         <div ref={ref} className={`scroll-reveal ${isVisible ? 'is-visible' : ''}`}>
           <div className="section-header">
             <span className="section-header__label">// About Me</span>
-            <h2 className="section-header__title">Bridging Hardware & Software</h2>
+            <h2 className="section-header__title">Bridging Hardware &amp; Software</h2>
             <p className="section-header__description">
-              Engineering solutions from circuit boards to cloud dashboards
+              From microcontroller firmware and UAV flight control to backend software testing
             </p>
           </div>
 
           <div className="about__content">
             <p className="about__text">
-              I'm <strong>Furqon Taufiq Hidayat</strong>, an engineer who thrives at the intersection of 
-              electrical engineering, embedded systems, and software development. My work spans from 
-              designing <strong>custom PCBs</strong> and writing <strong>microcontroller firmware</strong> to 
-              building <strong>full-stack web applications</strong> and <strong>IoT platforms</strong>.
+              I'm <strong>Furqon Taufiq Hidayat</strong>, an Electrical Engineering graduate from
+              Universitas Negeri Yogyakarta specializing in <strong>embedded systems</strong>,{' '}
+              <strong>microcontroller programming</strong>, <strong>control system algorithms</strong>, and{' '}
+              <strong>software engineering</strong>.
             </p>
             <p className="about__text">
-              I believe the best engineering solutions come from understanding the full stack — from the 
-              physics of sensors to the pixels on screen. Every line of code I write is meant to solve 
-              a real-world problem, whether it's monitoring an industrial plant or optimizing energy consumption.
+              I program ARM-based microcontrollers (STM32, Teensy) in C/C++ for real-time operation, and
+              have designed UAV flight controller architectures and processed inertial sensor data for
+              national flying-robot competitions. Today I build automated unit tests and resolve bugs in
+              backend components, and I'm comfortable working in the Linux ecosystem for engineering
+              development and hardware integration.
             </p>
           </div>
         </div>

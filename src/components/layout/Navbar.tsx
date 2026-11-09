@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Sun, Moon } from 'lucide-react';
-import { navItems } from '../../data/portfolioData';
+import { Sun, Moon, Download } from 'lucide-react';
+import { navItems, personalInfo } from '../../data/portfolioData';
 
 interface NavbarProps {
   theme: 'dark' | 'light';
@@ -68,6 +68,16 @@ export default function Navbar({ theme, onToggleTheme }: NavbarProps) {
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
 
+  // Close mobile menu with the Escape key
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [mobileOpen]);
+
   return (
     <nav className="navbar" role="navigation" aria-label="Main navigation">
       <div className="navbar__inner">
@@ -90,6 +100,18 @@ export default function Navbar({ theme, onToggleTheme }: NavbarProps) {
         </ul>
 
         <div className="navbar__actions">
+          {personalInfo.resumeUrl && (
+            <a
+              href={personalInfo.resumeUrl}
+              className="btn btn-secondary btn-sm navbar__cv"
+              download
+              aria-label="Download CV"
+            >
+              <Download size={14} />
+              CV
+            </a>
+          )}
+
           <button
             className="theme-toggle"
             onClick={onToggleTheme}
@@ -132,6 +154,16 @@ export default function Navbar({ theme, onToggleTheme }: NavbarProps) {
             {item.label}
           </a>
         ))}
+        {personalInfo.resumeUrl && (
+          <a
+            href={personalInfo.resumeUrl}
+            className="btn btn-primary navbar__mobile-cv"
+            download
+          >
+            <Download size={16} />
+            Download CV
+          </a>
+        )}
       </div>
     </nav>
   );

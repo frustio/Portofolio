@@ -9,16 +9,29 @@ export interface PersonalInfo {
     github: string;
     linkedin: string;
     email: string;
+    /** Full click-to-chat URL, e.g. https://wa.me/628xxxxxxxxxx */
+    whatsapp?: string;
     twitter?: string;
     website?: string;
   };
+  /** Path to a downloadable CV inside /public, e.g. /CV_Name.pdf */
   resumeUrl?: string;
 }
+
+export type ProjectCategory =
+  | 'uav'
+  | 'embedded'
+  | 'control'
+  | 'robotics'
+  | 'electrical'
+  | 'iot'
+  | 'software'
+  | 'fullstack';
 
 export interface Project {
   id: string;
   title: string;
-  category: 'embedded' | 'electrical' | 'software' | 'iot' | 'fullstack';
+  category: ProjectCategory;
   summary: string;
   challenge: string;
   solution: string;
@@ -32,7 +45,8 @@ export interface Project {
 
 export interface Skill {
   name: string;
-  proficiency: number;
+  /** Optional 1–100 value. When omitted the skill is rendered as a tag instead of a bar. */
+  proficiency?: number;
 }
 
 export interface SkillGroup {
@@ -48,10 +62,33 @@ export interface Experience {
   company: string;
   companyUrl?: string;
   location: string;
-  type: 'full-time' | 'contract' | 'freelance' | 'internship';
+  /** Optional — omitted when the employment type is not stated. */
+  type?: 'full-time' | 'contract' | 'freelance' | 'internship' | 'organization';
   description: string;
   achievements: string[];
   techUsed: string[];
+}
+
+export interface Award {
+  id: string;
+  rank: string;
+  event: string;
+  category: string;
+  theme?: string;
+  location: string;
+  date: string;
+  credentialUrl?: string;
+}
+
+export interface Education {
+  id: string;
+  institution: string;
+  degree: string;
+  location: string;
+  period: string;
+  gpa?: string;
+  thesis?: string;
+  activities: string[];
 }
 
 export interface Certification {

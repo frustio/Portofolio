@@ -1,4 +1,4 @@
-import { Mail, Send } from 'lucide-react';
+import { Mail, Send, MessageCircle } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '../ui/Icons';
 import { personalInfo } from '../../data/portfolioData';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
@@ -20,18 +20,31 @@ export default function Contact() {
 
           <div className="contact__content">
             <p className="contact__text">
-              Whether you need help with embedded systems design, industrial IoT solutions, 
-              or full-stack web development — I'm always excited to take on new engineering challenges. 
-              Drop me an email or connect on social media.
+              Whether you need help with embedded systems, firmware development, UAV flight control,
+              or software testing — I'm always excited to take on new engineering challenges.
+              Drop me an email or reach out on WhatsApp or LinkedIn.
             </p>
 
-            <a
-              href={`mailto:${personalInfo.socials.email}`}
-              className="btn btn-primary btn-lg contact__email-btn"
-            >
-              <Send size={18} />
-              Say Hello
-            </a>
+            <div className="contact__cta">
+              <a
+                href={`mailto:${personalInfo.socials.email}`}
+                className="btn btn-primary btn-lg contact__email-btn"
+              >
+                <Send size={18} />
+                Say Hello
+              </a>
+              {personalInfo.socials.whatsapp && (
+                <a
+                  href={personalInfo.socials.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-secondary btn-lg contact__email-btn"
+                >
+                  <MessageCircle size={18} />
+                  Chat on WhatsApp
+                </a>
+              )}
+            </div>
 
             <div className="contact__socials">
               <a

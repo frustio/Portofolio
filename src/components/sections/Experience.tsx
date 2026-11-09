@@ -44,11 +44,26 @@ function ExperienceItem({ experience, index }: { experience: typeof experiences[
         </div>
 
         <p className="experience__company">
-          <span className="experience__company-name">{experience.company}</span>
+          {experience.companyUrl ? (
+            <a
+              href={experience.companyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="experience__company-name"
+            >
+              {experience.company}
+            </a>
+          ) : (
+            <span className="experience__company-name">{experience.company}</span>
+          )}
           {' · '}
           {experience.location}
-          {' · '}
-          <span style={{ textTransform: 'capitalize' }}>{experience.type}</span>
+          {experience.type && (
+            <>
+              {' · '}
+              <span style={{ textTransform: 'capitalize' }}>{experience.type}</span>
+            </>
+          )}
         </p>
 
         <p className="experience__description">{experience.description}</p>

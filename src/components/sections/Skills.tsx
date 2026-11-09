@@ -54,7 +54,7 @@ function SkillGroupCard({ group, index }: { group: typeof skillGroups[0]; index:
       </div>
 
       <div className="skill-group__items">
-        {group.items.map((skill, skillIndex) => (
+        {group.items.filter((skill) => skill.proficiency !== undefined).map((skill, skillIndex) => (
           <div key={skill.name} className="skill-item">
             <div className="skill-item__header">
               <span className="skill-item__name">{skill.name}</span>
@@ -72,6 +72,17 @@ function SkillGroupCard({ group, index }: { group: typeof skillGroups[0]; index:
           </div>
         ))}
       </div>
+
+      {/* Skills without a proficiency value are shown as tags */}
+      {group.items.some((skill) => skill.proficiency === undefined) && (
+        <div className="project-card__tech">
+          {group.items.filter((skill) => skill.proficiency === undefined).map((skill) => (
+            <span key={skill.name} className="badge">
+              {skill.name}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
